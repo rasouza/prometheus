@@ -14,7 +14,7 @@ services:
     image: prom/prometheus:v2.12.0
     container_name: prometheus
     volumes:
-      - ./prometheus/:/etc/prometheus/
+      - ./config/prometheus/:/etc/prometheus/
       - prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -35,7 +35,7 @@ services:
     image: prom/alertmanager:v0.19.0
     container_name: alertmanager
     volumes:
-      - ./alertmanager/:/etc/alertmanager/
+      - ./config/alertmanager/:/etc/alertmanager/
     command:
       - '--config.file=/etc/alertmanager/config.yml'
       - '--storage.path=/alertmanager'
@@ -89,9 +89,9 @@ services:
     container_name: grafana
     volumes:
       - grafana_data:/var/lib/grafana
-      - ./grafana/datasources:/etc/grafana/datasources
-      - ./grafana/dashboards:/etc/grafana/dashboards
-      - ./grafana/setup.sh:/setup.sh
+      - ./config/grafana/datasources:/etc/grafana/datasources
+      - ./config/grafana/dashboards:/etc/grafana/dashboards
+      - ./config/grafana/setup.sh:/setup.sh
     entrypoint: /setup.sh
     environment:
       - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
@@ -125,7 +125,7 @@ services:
       - "9093:9093"
       - "9091:9091"
     volumes:
-      - ./caddy/:/etc/caddy/
+      - ./config/caddy/:/etc/caddy/
     environment:
       - ADMIN_USER=${ADMIN_USER:-admin}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
